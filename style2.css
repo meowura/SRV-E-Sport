@@ -1,0 +1,717 @@
+/********************************************
+ * SRV E-SPORT — style2.css
+ ********************************************/
+
+/* ========== THEME TOKENS ========== */
+:root {
+    --font-ui: 'Kanit', system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+
+    /* โหมดเริ่มต้น (Dark) */
+    --bg: #000000;
+    --fg: #ffffff;
+    --muted: #cbd5e1;
+
+    --accent: #679e56;
+    /* สีเน้น */
+    --grid: #ffffff;
+    /* สีเส้นกรอบ/กล่อง */
+    --grid-soft: rgba(255, 255, 255, .14);
+
+    --table-bg: #0d0d0d;
+    /* พื้นกรอบตาราง */
+    --table-cell-bg: #121212;
+    /* พื้นช่องตาราง */
+    --table-border: rgba(255, 255, 255, .14);
+
+    --nav-h: 64px;
+    --maxw: 1100px;
+    --radius: 12px;
+}
+
+/* โหมดสว่าง (Sunlight) */
+body[data-theme="sunlight"] {
+    --bg: #fffaf0;
+    --fg: #1f2937;
+    --muted: #475569;
+    --accent: #f59e0b;
+    --grid: #111827;
+    --grid-soft: rgba(17, 24, 39, .25);
+    --table-bg: #fff5dc;
+    --table-cell-bg: #f3b772;
+    --table-border: rgba(17, 24, 39, .25);
+    background: var(--bg);
+    color: var(--fg);
+}
+
+/* โหมดคราม (Moonlight) */
+body[data-theme="moonlight"] {
+    --bg: #020617;
+    --fg: #e5e7eb;
+    --muted: #9aa3b2;
+    --accent: #60a5fa;
+    --grid: #e5e7eb;
+    --grid-soft: rgba(229, 231, 235, .15);
+    --table-bg: #081427;
+    --table-cell-bg: #122a54;
+    --table-border: rgba(96, 165, 250, .35);
+    background: var(--bg);
+    color: var(--fg);
+}
+
+/* ========== BASE & LAYOUT ========== */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-ui);
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.container {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+}
+
+.section {
+    margin-bottom: 44px;
+    scroll-margin-top: calc(var(--nav-h) + 10px);
+}
+
+.section-title {
+    text-align: center;
+    margin: 6px 0 14px;
+    font-size: clamp(22px, 3.2vw, 34px);
+    font-weight: 900;
+    color: var(--accent);
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background: rgba(0, 0, 0, .86);
+    backdrop-filter: blur(6px);
+    border-bottom: 2px solid #1f2937;
+    padding-top: max(0px, env(safe-area-inset-top));
+    /* เผื่อ notch */
+}
+
+.navbar.scrolled {
+    background: rgba(0, 0, 0, .96);
+}
+
+.brand-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.logo {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.brand {
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: .5px;
+}
+
+body[data-theme="sunlight"] .brand,
+body[data-theme="moonlight"] .brand {
+    color: var(--accent);
+}
+
+.navbar-right {
+    display: flex;
+    gap: 14px;
+}
+
+.navbar-right a {
+    color: #f8fafc;
+    text-decoration: none;
+    font-weight: 800;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.navbar-right a:hover {
+    background: #ffffff22;
+}
+
+/* ปุ่มสามขีด (มือถือ) */
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: 0;
+    color: var(--fg);
+    font-size: 28px;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+/* ========== HERO (ภาพเต็มจอ) ========== */
+/* ใช้ svh/dvh เพื่อกันปัญหา address bar บนมือถือ */
+:root {
+    --hero-h: calc(100svh - var(--nav-h));
+}
+
+@supports (height: 100dvh) {
+    :root {
+        --hero-h: calc(100dvh - var(--nav-h) - env(safe-area-inset-top));
+    }
+}
+
+.hero {
+    position: relative;
+    height: var(--hero-h);
+    overflow: hidden;
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    /* สูงเท่าคอนเทนเนอร์ */
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    background: #000;
+}
+
+/* คำโปรย */
+.hero-caption {
+    text-align: center;
+    padding: 18px 16px 8px;
+    color: #fff;
+}
+
+.hero-line1 {
+    font-size: clamp(4px, 6vw, 48px);
+    font-weight: 700;
+    margin: 0 0 6px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
+}
+
+.hero-line2 {
+    font-size: clamp(32px, 7vw, 56px);
+    font-weight: 700;
+    margin: 0;
+    color: #ffe089;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, .7);
+}
+
+/* QR */
+.qr-section {
+    text-align: center;
+    padding: 18px 16px 8px;
+}
+
+.qr-section img {
+    width: 140px;
+    height: auto;
+    background: #fff;
+    padding: 6px;
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto 6px;
+}
+
+.qr-section p {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* ========== ตาราง (2 คอลัมน์) ========== */
+.grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--table-bg);
+    border: 1px solid var(--table-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.grid-table tr {
+    border-bottom: 1px solid var(--table-border);
+}
+
+.grid-table tr:last-child {
+    border-bottom: 0;
+}
+
+.grid-table td {
+    border: 0;
+    padding: 18px 24px;
+    text-align: left;
+    font-weight: 500;
+    background: var(--table-cell-bg);
+    color: var(--fg);
+}
+
+.grid-table td+td {
+    border-left: 1px solid var(--table-border);
+}
+
+.grid-table .hl td {
+    background: var(--accent);
+    color: #000;
+    font-weight: 500;
+}
+
+/* ========== รายชื่อทีม (3 คอลัมน์) ========== */
+#teamlist .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px 24px;
+    padding: 6px 4px;
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    background: var(--bg);
+    border-radius: 18px;
+}
+
+@media (max-width: 700px) {
+    #teamlist .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+}
+
+
+#teamlist .team-cell {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--fg);
+    font-weight: 500;
+    font-size: 18px;
+    margin: 12px 0;
+}
+
+/* ========== ข้อความกลาง + วันที่ ========== */
+.event-info {
+    text-align: center;
+    padding: 4px 12px;
+}
+
+.event-info p {
+    margin: 0 0 18px;
+    line-height: 1.7;
+    opacity: .92;
+    font-size: 18px;
+}
+
+.event-date .biggest {
+    font-size: clamp(26px, 4.5vw, 40px);
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--accent);
+}
+
+.event-date .bigger {
+    font-size: clamp(18px, 3.5vw, 28px);
+    font-weight: 600;
+}
+
+/* ========== Carousel (16:9) ========== */
+.carousel {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    user-select: none;
+}
+
+.carousel-viewport {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+    aspect-ratio: 16/9;
+}
+
+.carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform .45s cubic-bezier(.77, 0, .18, 1);
+}
+
+.carousel-slide {
+    min-width: 100%;
+    height: 100%;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, .4);
+    border: 0;
+    color: #fff;
+    font-size: 2.5rem;
+    padding: .5em .8em;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    transition: background .2s;
+}
+
+.carousel-btn.left {
+    left: 16px;
+}
+
+.carousel-btn.right {
+    right: 16px;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, .7);
+}
+
+.carousel-counter {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 16px;
+    color: #bbb;
+}
+
+/* ========== CONTACT / รูปท้าย 2 รูป ========== */
+.full-img {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px 36px;
+    background: #0a0a0a;
+    color: #fff;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+footer .left {
+    font-size: .9rem;
+    line-height: 1.6;
+}
+
+footer .social-icons {
+    display: flex;
+    gap: 30px;
+    margin-right: 140px;
+}
+
+footer .social-icons a img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+footer .social-icons a:hover img {
+    transform: scale(1.1);
+}
+
+/* ========== FOOTER ========== */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    padding: 20px 36px;
+    background: #0a0a0a;
+    color: #fff;
+    margin-top: auto;
+}
+
+footer .left {
+    font-size: .95rem;
+    line-height: 1.6;
+}
+
+footer .social-icons {
+    display: flex;
+    gap: 30px;
+    margin-right: 140px;
+}
+
+footer .social-icons a img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+footer .social-icons a:hover img {
+    transform: scale(1.1);
+}
+
+/* ========== THEME SWITCHER (ปุ่มลอย) ========== */
+.theme-switch {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1100;
+    font-family: var(--font-ui);
+}
+
+.theme-toggle-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #444;
+    background: #0f172a;
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.theme-toggle-btn:hover {
+    background: #111827;
+}
+
+.theme-menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    min-width: 180px;
+    background: #0b0b0b;
+    border: 1px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .5);
+    padding: 8px;
+    opacity: 0;
+    transform: translateY(6px);
+    pointer-events: none;
+    transition: opacity .18s, transform .18s;
+}
+
+.theme-switch.open .theme-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.theme-item {
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    background: transparent;
+    border: 0;
+    color: #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.theme-item:hover {
+    background: #1f2937;
+}
+
+/* ========== MOBILE BIG TYPE MODE (≤768px) ========== */
+@media (max-width: 768px) {
+
+    /* Navbar มือถือ */
+    .nav-toggle {
+        display: block;
+    }
+
+    .navbar {
+        gap: 10px;
+        padding: 0 12px;
+    }
+
+    #navbar-right {
+        position: absolute;
+        top: var(--nav-h);
+        right: 0;
+        left: 0;
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, .96);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid #1f2937;
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .navbar.open #navbar-right {
+        display: flex !important;
+    }
+
+    /* ตัวอักษรใหญ่ อ่านง่าย */
+    html {
+        font-size: 21px;
+    }
+
+    body {
+        line-height: 1.7;
+    }
+
+    .nav-toggle {
+        font-size: 30px;
+        padding: 8px 12px;
+    }
+
+    .navbar-right a {
+        font-size: 1.05rem;
+        padding: 14px 12px;
+    }
+
+    .section-title {
+        font-size: clamp(24px, 5.2vw, 30px);
+        letter-spacing: .2px;
+    }
+
+    /* Hero: ไม่แตะรูป (คงขนาด) แต่อัปข้อความ */
+    .hero-caption {
+        padding: 22px 18px 10px;
+    }
+
+    .hero-line1 {
+        font-size: clamp(30px, 7.2vw, 44px);
+    }
+
+    .hero-line2 {
+        font-size: clamp(32px, 8vw, 48px);
+    }
+
+    .qr-section img {
+        width: 120px;
+    }
+
+    .qr-section p {
+        font-size: 1.05rem;
+    }
+
+    .grid-table td {
+        font-size: 1.05rem;
+        padding: 16px 18px;
+    }
+
+    #activities .grid-table td:first-child {
+        font-weight: 900;
+        font-size: 1.06rem;
+    }
+
+    #teamlist .team-cell {
+        height: 60px;
+        font-size: 1.05rem;
+        font-weight: 800;
+    }
+
+    .event-info p {
+        font-size: 1.06rem;
+    }
+
+    .event-date .biggest {
+        font-size: clamp(26px, 6.2vw, 34px);
+    }
+
+    .event-date .bigger {
+        font-size: clamp(18px, 5.4vw, 24px);
+    }
+
+    .carousel-counter {
+        font-size: 1rem;
+    }
+
+    #contact .full-img:last-child {
+        width: 90%;
+        max-width: 900px;
+        margin: 30px auto;
+    }
+
+    footer .left {
+        font-size: 1rem;
+    }
+
+    footer .social-icons {
+        margin-right: 0;
+        width: 100%;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    footer .social-icons a img {
+        width: 32px;
+        height: 32px;
+        padding: 3px;
+    }
+}
+
+/* จอเล็กมาก ≤420px */
+@media (max-width: 420px) {
+    .brand {
+        display: none;
+    }
+
+    .logo {
+        height: 36px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .hero-line1 {
+        font-size: 28px;
+    }
+
+    .hero-line2 {
+        font-size: 32px;
+    }
+
+    .event-date .biggest {
+        font-size: 26px;
+    }
+
+    .event-date .bigger {
+        font-size: 20px;
+    }
+}
